@@ -33,8 +33,6 @@ function addBookToLibrary(book) {
     myLibrary.push(book);
 }
 
-myLibrary.forEach((book) => console.log(book.info()));
-
 function displayLibrary() {
     let main = document.querySelector("#main");
     main.innerHTML = "";
@@ -112,20 +110,50 @@ function deleteCard(button) {
     displayLibrary();
 }
 
+// toggles the read information for the book and reloads the display
 function toggleRead(button) {
     let cardNum = button.parentNode.parentNode.parentNode.getAttribute("cardnumber"); // not sure this is the most effective way but it works
     myLibrary[cardNum].toggleRead();
     displayLibrary();
 }
 
-
-
-theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", "295", false);
-harryPotter = new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", "223", true);
-petSematary = new Book("Pet Sematary", "Stephen King", "374", true);
+// initial library filler
+let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", "295", false);
+let harryPotter = new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", "223", true);
+let petSematary = new Book("Pet Sematary", "Stephen King", "374", true);
 addBookToLibrary(theHobbit);
 addBookToLibrary(harryPotter);
 addBookToLibrary(petSematary);
 displayLibrary();
 
+myLibrary.forEach((book) => console.log(book.info()));
 
+// adding a new book functionality
+let dialog = document.querySelector("#enterBook");
+let newBook = document.querySelector("#newBook");
+let closeButton = document.querySelector("#cancelBook");
+let confirmBtn = document.querySelector("#submitBook");
+
+newBook.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+confirmBtn.addEventListener("click", (event) => {
+    event.preventDefault(); // We don't want to submit this fake form
+
+    let newTitle = document.querySelector("#title");
+    let newAuthor = document.querySelector("#author");
+    let newPages = document.querySelector("#pages");
+    let newRead = document.querySelector("#read");
+
+    let newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead.checked);
+    addBookToLibrary(newBook);
+
+    newTitle.value = "";
+    newAuthor.value = "";
+    newPages.value = "";
+    newRead.checked = false;
+    
+    dialog.close();
+    displayLibrary();
+});
