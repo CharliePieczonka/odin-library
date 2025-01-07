@@ -9,7 +9,7 @@ function Book (title, author, pages, read) {
     this.info = function() {
         message = title + " by " + author + ", " + pages + " pages, ";
         
-        if(read) {
+        if(this.read) {
             message += "read";
         }
         else {
@@ -17,6 +17,15 @@ function Book (title, author, pages, read) {
         }
         
         return message;
+    }
+
+    this.toggleRead = function () {
+        if(this.read) {
+            this.read = false;
+        }
+        else {
+           this.read = true;
+        }
     }
 }
 
@@ -78,6 +87,7 @@ function displayLibrary() {
     
         let toggleRead = document.createElement("button");
         toggleRead.setAttribute("class", "cardButton");
+        toggleRead.setAttribute("onClick", "toggleRead(this)");
         toggleRead.textContent = toggleText;
         toggleReadDiv.appendChild(toggleRead);
     
@@ -95,14 +105,18 @@ function displayLibrary() {
     });
 }
 
-
+// deletes the book card from the library array and reloads the display
 function deleteCard(button) {
     let cardNum = button.parentNode.parentNode.parentNode.getAttribute("cardnumber"); // not sure this is the most effective way but it works
     myLibrary.splice(cardNum, 1);
     displayLibrary();
 }
 
-
+function toggleRead(button) {
+    let cardNum = button.parentNode.parentNode.parentNode.getAttribute("cardnumber"); // not sure this is the most effective way but it works
+    myLibrary[cardNum].toggleRead();
+    displayLibrary();
+}
 
 
 
