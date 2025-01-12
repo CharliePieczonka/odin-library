@@ -1,12 +1,14 @@
 const myLibrary = [];
 
-function Book (title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-
-    this.info = function() {
+class Book  {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+    
+    info() {
         message = title + " by " + author + ", " + pages + " pages, ";
         
         if(this.read) {
@@ -19,7 +21,7 @@ function Book (title, author, pages, read) {
         return message;
     }
 
-    this.toggleRead = function () {
+    toggleRead() {
         if(this.read) {
             this.read = false;
         }
