@@ -9,7 +9,7 @@ class Book  {
     }
     
     info() {
-        message = title + " by " + author + ", " + pages + " pages, ";
+        let message = title + " by " + author + ", " + pages + " pages, ";
         
         if(this.read) {
             message += "read";
