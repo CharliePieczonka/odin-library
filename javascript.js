@@ -143,19 +143,36 @@ newBook.addEventListener("click", () => {
 confirmBtn.addEventListener("click", (event) => {
     event.preventDefault(); // We don't want to submit this fake form
 
+    let message = document.querySelector(".message");
     let newTitle = document.querySelector("#title");
     let newAuthor = document.querySelector("#author");
     let newPages = document.querySelector("#pages");
     let newRead = document.querySelector("#read");
 
-    let newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead.checked);
-    addBookToLibrary(newBook);
-
-    newTitle.value = "";
-    newAuthor.value = "";
-    newPages.value = "";
-    newRead.checked = false;
+    if(newTitle.validity.valueMissing) {
+        message.textContent = "The title is missing!";
+    }
+    else if (newAuthor.validity.valueMissing) {
+        message.textContent = "The author is missing!";
+    }
+    else if (newPages.validity.rangeUnderflow) {
+        message.textContent = "The number of pages is invalid!";
+    }
+    else {
+        let newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead.checked);
+        addBookToLibrary(newBook);
     
+        newTitle.value = "";
+        newAuthor.value = "";
+        newPages.value = "";
+        newRead.checked = false;
+        
+        dialog.close();
+        displayLibrary();
+    }
+});
+
+// form validity would not let the cancel button work as before
+closeButton.addEventListener("click", () => {
     dialog.close();
-    displayLibrary();
 });
